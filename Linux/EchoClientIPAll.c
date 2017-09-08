@@ -1,3 +1,9 @@
+/*******************************************************************************
+
+  IPv4와 IPv6에 모두 대응하는 에코 서버의 불완전 버전
+
+*******************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,6 +40,14 @@
 //------------------------------------------------------------------------------
 // 전역 변수 / 함수 선언
 //------------------------------------------------------------------------------
+// 애플리케이션 이름
+char* applicationName = NULL;
+
+// 주소 이름
+char* address = NULL;
+
+// 서비스 포트 이름
+char* servicePort = NULL;
 
 //------------------------------------------------------------------------------
 // 엔트리 포인트
@@ -41,6 +55,10 @@
 int main(int argc, char** argv)
 {
     int result = RESULT_SUCCESS;
+
+    applicationName = argv[0];
+    address = argv[1]
+    servicePort = argv[2];
 
     struct addrinfo addressHints;
     memset(&addressHints, 0x00, sizeof(struct addrinfo));
@@ -50,8 +68,8 @@ int main(int argc, char** argv)
     addressHints.ai_flags = 0;
 
     struct addrinfo* resultAddressInfo = NULL;
-    result = getaddrinfo(argv[1], 
-                         argv[2], 
+    result = getaddrinfo(address, 
+                         servicePort, 
                          &addressHints, 
                          &resultAddressInfo);
     if(result != RESULT_SUCCESS)

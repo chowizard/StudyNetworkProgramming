@@ -1,3 +1,9 @@
+/*******************************************************************************
+
+  IPv4와 IPv6에 모두 대응하는 에코 클라이언트
+
+*******************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,6 +41,13 @@
 // 수신소켓 목록
 int* listenFDs = NULL;
 
+// 애플리케이션 이름
+char* applicationName = NULL;
+
+// 서비스 포트 이름
+char* servicePort = NULL;
+
+// 수신 소켓 목록을 생성한다.
 bool CreateListenningSockets(struct addrinfo* resultAddress);
 
 //------------------------------------------------------------------------------
@@ -42,13 +55,16 @@ bool CreateListenningSockets(struct addrinfo* resultAddress);
 //------------------------------------------------------------------------------
 int main(int argc, char** argv)
 {
+    int result = RESULT_SUCCESS;
+
     if(argc != 2)
     {
         printf("Usage : %s [port]\n", argv[0]);
         return RESULT_FAILED;
     }
 
-    int result = RESULT_SUCCESS;
+    applicationName = argv[0];
+    servicePort = argv[1];
 
     struct addrinfo addressHint;
     memset(&addressHint, 0x00, sizeof(addressHint));
@@ -58,7 +74,7 @@ int main(int argc, char** argv)
 
     struct addrinfo* resultAddress = NULL;
     result = getaddrinfo(NULL, 
-                         argv[1], 
+                         servicePort, 
                          &addressHint, 
                          &resultAddress);
     if(result != RESULT_SUCCESS)
